@@ -1,4 +1,4 @@
-# 🚆 haybarn-vgi-nl-trains-cli
+# 🚆 query-farm-vgi-nl-trains-cli
 
 A live Dutch railway (NS) **dashboard** in your terminal — a station list on the left,
 with departures (top) and arrivals (bottom) for the selected station on the right.
@@ -28,9 +28,9 @@ functions, and renders it as an animated split-flap board.
 No install needed — it talks to a hosted worker by default:
 
 ```bash
-npx haybarn-vgi-nl-trains-cli            # dashboard, pick a station
-npx haybarn-vgi-nl-trains-cli UT         # focused on Utrecht Centraal
-npx haybarn-vgi-nl-trains-cli ASD -w 15  # auto-refresh both boards every 15s
+npx query-farm-vgi-nl-trains-cli            # dashboard, pick a station
+npx query-farm-vgi-nl-trains-cli UT         # focused on Utrecht Centraal
+npx query-farm-vgi-nl-trains-cli ASD -w 15  # auto-refresh both boards every 15s
 ```
 
 ## Data source

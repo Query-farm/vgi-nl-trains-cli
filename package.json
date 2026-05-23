@@ -1,10 +1,10 @@
 {
-  "name": "haybarn-vgi-nl-trains-cli",
+  "name": "query-farm-vgi-nl-trains-cli",
   "version": "0.1.0",
   "description": "Live Dutch railway (NS) departure/arrival dashboard in your terminal — an Ink TUI over the vgi DuckDB extension.",
   "type": "module",
   "bin": {
-    "haybarn-vgi-nl-trains-cli": "dist/cli.js",
+    "query-farm-vgi-nl-trains-cli": "dist/cli.js",
     "vgi-nl-trains": "dist/cli.js"
   },
   "main": "dist/cli.js",
