@@ -1,6 +1,6 @@
 {
   "name": "@query-farm/vgi-nl-trains-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Live Dutch railway (NS) departure/arrival dashboard in your terminal — an Ink TUI over the vgi DuckDB extension.",
   "type": "module",
   "bin": {

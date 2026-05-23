@@ -233,26 +233,6 @@ function ServiceRow({ cols, r, ri, now, selected, via }) {
   );
 }
 
-// Animated placeholder shown while a station's boards load: rows of glyphs that keep
-// flapping (never settle), matching the split-flap aesthetic.
-function LoadingRows({ cols, rowsCount }) {
-  const [, setTick] = useState(0);
-  useEffect(() => {
-    if (!isTTY) return undefined;
-    const id = setInterval(() => setTick((t) => (t + 1) % 1e6), 90);
-    return () => clearInterval(id);
-  }, []);
-  const ghosts = [];
-  for (let r = 0; r < rowsCount; r++) {
-    ghosts.push(
-      <GridRow key={r} cols={cols} cells={cols.map((c, i) => (
-        <Text key={i} dimColor>{scramble('▮'.repeat(c.w))}</Text>
-      ))} />,
-    );
-  }
-  return <>{ghosts}</>;
-}
-
 // Continuation line under a departure, used when the via chain doesn't fit inline.
 // Indented under the Type column so the via text gets as much room as possible.
 function ViaLine({ cols, full, via }) {
@@ -276,12 +256,14 @@ function BoardPane({ L, mode, station, rows, clock, selectedIndex = -1, focused 
 
   return (
     <Box borderStyle="round" borderColor={focused ? 'cyan' : 'gray'} flexDirection="column" paddingX={1} width={outer}>
-      <Box justifyContent="space-between">
-        <Text bold color={focused ? 'cyan' : 'blueBright'}>
-          {`${mode === 'arrivals' ? '🚉' : '🚆'} ${title}`}
-          {station ? <Text dimColor>{`  ·  ${station.name}`}</Text> : null}
-        </Text>
-        <Text dimColor>{rows ? `${rows.length}` : ''}</Text>
+      <Box>
+        <Box flexGrow={1} minWidth={0}>
+          <Text bold color={focused ? 'cyan' : 'blueBright'} wrap="truncate">
+            {`${mode === 'arrivals' ? '🚉' : '🚆'} ${title}`}
+            {station ? <Text dimColor>{`  ·  ${station.name}`}</Text> : null}
+          </Text>
+        </Box>
+        <Text dimColor>{rows ? ` ${rows.length}` : ''}</Text>
       </Box>
       <Rule w={full} />
       <GridRow cols={cols} cells={cols.map((c, i) => {
@@ -289,7 +271,7 @@ function BoardPane({ L, mode, station, rows, clock, selectedIndex = -1, focused 
         return <Text key={i} dimColor bold>{c.flex ? fitWidth(label, c.w) : label}</Text>;
       })} />
       {rows === null
-        ? <LoadingRows cols={cols} rowsCount={Math.min(paneRows, 5)} />
+        ? <Box><Text color="cyan">{isTTY ? <Spinner type="dots" /> : '…'}</Text><Text dimColor> loading…</Text></Box>
         : rows.length === 0
           ? <Text color="yellow">no services</Text>
           : win.items.map((r, i) => {
