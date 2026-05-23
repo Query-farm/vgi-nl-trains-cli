@@ -1,16 +1,19 @@
 {
-  "name": "query-farm-vgi-nl-trains-cli",
+  "name": "@query-farm/vgi-nl-trains-cli",
   "version": "0.1.0",
   "description": "Live Dutch railway (NS) departure/arrival dashboard in your terminal — an Ink TUI over the vgi DuckDB extension.",
   "type": "module",
   "bin": {
-    "query-farm-vgi-nl-trains-cli": "dist/cli.js",
+    "vgi-nl-trains-cli": "dist/cli.js",
     "vgi-nl-trains": "dist/cli.js"
   },
   "main": "dist/cli.js",
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "esbuild source/cli.jsx --bundle --platform=node --target=node18 --format=esm --packages=external --outfile=dist/cli.js --banner:js=\"#!/usr/bin/env node\" && chmod +x dist/cli.js",
     "dev": "tsx source/cli.jsx",
