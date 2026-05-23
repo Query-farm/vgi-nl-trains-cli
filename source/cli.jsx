@@ -670,7 +670,14 @@ const args = parseArgs(process.argv.slice(2));
 export { App, parseArgs, HELP, computeLayout, BoardPane };
 
 import { pathToFileURL } from 'node:url';
-const isEntry = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+import { realpathSync } from 'node:fs';
+// Detect "run as the CLI entry" robustly: npm/npx invoke the bin through a symlink,
+// so process.argv[1] (the symlink) must be resolved to its real path before comparing
+// to import.meta.url (already a real path). Without realpathSync, npx runs do nothing.
+let isEntry = false;
+try {
+  isEntry = !!process.argv[1] && import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href;
+} catch { /* not invoked as a file entry */ }
 if (isEntry) {
   if (args.help) process.stdout.write(HELP + '\n');
   else render(<App args={args} />, { exitOnCtrlC: true });
